@@ -1,6 +1,7 @@
 package eu.t6nn.tutorial.spock.system.wallet
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class NormalWalletSpec extends Specification {
 
@@ -14,20 +15,22 @@ class NormalWalletSpec extends Specification {
 	}
 
 	def "Taking from an empty wallet fails"() {
-		when: "taking money from an empty wallet"
+		when: "taking 5 USD from an empty wallet"
 		wallet.take(money(5, "USD"))
 
-		then:
+		then: "an exception is thrown, as the wallet does not contain the required amount."
 		thrown(OutOfMoneyException)
 	}
 
-	def "Money of specific currency can be taken from wallet if the same amount or more was already put there"() {
+	@Unroll
+	def "#sumOut USD can be taken from wallet if #sumIn USD was already put there"() {
 		when: "putting $sumIn USD into the wallet"
 		wallet.put(money(sumIn, "USD"))
 		and: "taking $sumOut USD from the wallet"
 		wallet.take(money(sumOut, "USD"))
 
-		then: notThrown(OutOfMoneyException)
+		then: "no exceptions occur"
+		notThrown(OutOfMoneyException)
 
 		where:
 		sumIn << [5, 8, 3.5]
