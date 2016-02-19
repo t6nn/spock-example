@@ -9,5 +9,5 @@ public interface Wallet {
 
 	void take(Money money) throws OutOfMoneyException;
 
-	Map<Currency, Money> totalsByCurrency();
+	Map<Currency, Money> checkBalances();
 }

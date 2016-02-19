@@ -1,10 +1,11 @@
 package eu.t6nn.tutorial.spock.system;
 
+import eu.t6nn.tutorial.spock.system.wallet.Money;
+import eu.t6nn.tutorial.spock.system.wallet.OutOfMoneyException;
+import eu.t6nn.tutorial.spock.system.wallet.Wallet;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import eu.t6nn.tutorial.spock.system.wallet.Money;
-import eu.t6nn.tutorial.spock.system.wallet.Wallet;
 
 public class Person {
 
@@ -21,9 +22,18 @@ public class Person {
 		wallet.put(money);
 	}
 
-	public Iterable<String> reportBalance() {
+	public Money ask(Money money) {
+		try {
+			wallet.take(money);
+			return money;
+		} catch (OutOfMoneyException e) {
+			return Money.nothing(money.getCurrency());
+		}
+	}
+
+	Iterable<String> reportBalances() {
 		List<String> balances = new ArrayList<>();
-		wallet.totalsByCurrency().forEach((c, m) -> balances.add(c + ":" + m.getAmount()));
+		wallet.checkBalances().forEach((c, m) -> balances.add(c + ":" + m.getAmount()));
 		return balances;
 	}
 

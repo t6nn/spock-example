@@ -1,9 +1,10 @@
 package eu.t6nn.tutorial.spock.system.wallet
 
+import eu.t6nn.tutorial.spock.system.test.SpecThatHandlesMoney
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class NormalWalletSpec extends Specification {
+class NormalWalletSpec extends Specification implements SpecThatHandlesMoney {
 
 	NormalWallet wallet = new NormalWallet()
 
@@ -11,7 +12,7 @@ class NormalWalletSpec extends Specification {
 		when: "nothing happens to an empty wallet"
 
 		then: "wallet totals report is empty"
-		wallet.totalsByCurrency().isEmpty()
+		wallet.checkBalances().isEmpty()
 	}
 
 	def "Taking from an empty wallet fails"() {
@@ -69,7 +70,4 @@ class NormalWalletSpec extends Specification {
 		    9 | 9.1
 	}
 
-	Money money(sum, currency) {
-		new Money(BigDecimal.valueOf(sum), Currency.getInstance(currency))
-	}
 }

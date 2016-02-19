@@ -1,31 +1,29 @@
 package eu.t6nn.tutorial.spock.system.wallet;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Currency;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class MagicWallet implements Wallet {
 
-	private ConcurrentMap<Currency, Money> totals = new ConcurrentHashMap<>();
+	private ConcurrentMap<Currency, Money> balances = new ConcurrentHashMap<>();
 
 	@Override
-	public void put(Money money) {
-		totals.merge(money.getCurrency(),
-				new Money(money.getAmount().multiply(BigDecimal.valueOf(2L)), money.getCurrency()), Money::add);
+	public void put( Money money ) {
+		// add twice as much money!
+		balances.merge( money.getCurrency(), money.add( money ), Money::add );
 	}
 
 	@Override
-	public void take(Money money) throws OutOfMoneyException {
+	public void take( Money money ) throws OutOfMoneyException {
 		// do nothing, it's a magic wallet that never runs out
 	}
 
 	@Override
-	public Map<Currency, Money> totalsByCurrency() {
-		return Collections.unmodifiableMap(new HashMap<>(totals));
+	public Map<Currency, Money> checkBalances() {
+		return Collections.unmodifiableMap(balances);
 	}
 
 }

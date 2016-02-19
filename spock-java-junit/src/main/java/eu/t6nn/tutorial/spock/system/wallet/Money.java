@@ -15,6 +15,10 @@ public class Money {
 		this.currency = currency;
 	}
 
+	public static Money nothing(Currency currency) {
+		return new Money(BigDecimal.ZERO, currency);
+	}
+
 	private void notNull(Object value, String argName) {
 		if (value == null) {
 			throw new IllegalArgumentException(argName + " cannot be null.");
@@ -44,4 +48,22 @@ public class Money {
 		return new Money(amount.negate(), currency);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Money money = (Money) o;
+
+		if (!amount.equals(money.amount)) return false;
+		return currency.equals(money.currency);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = amount.hashCode();
+		result = 31 * result + currency.hashCode();
+		return result;
+	}
 }
