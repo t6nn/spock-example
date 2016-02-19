@@ -14,6 +14,28 @@
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.athaydes</groupId>
+			<artifactId>spock-reports</artifactId>
+			<scope>test</scope>
+			<!-- this avoids affecting your version of Groovy/Spock -->
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

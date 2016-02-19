@@ -13,11 +13,17 @@ public class NormalWallet implements Wallet {
 
 	@Override
 	public void put(Money money) {
+		if(money.getAmount().signum() == -1) {
+			throw new IllegalArgumentException("Cannot put a negative amount");
+		}
 		totals.merge(money.getCurrency(), money, Money::add);
 	}
 
 	@Override
 	public void take(Money money) throws OutOfMoneyException {
+		if(money.getAmount().signum() == -1) {
+			throw new IllegalArgumentException("Cannot take a negative amount");
+		}
 		try {
 			totals.compute(money.getCurrency(), (c, m) -> {
 				if (m == null || m.getAmount().compareTo(money.getAmount()) < 0) {
