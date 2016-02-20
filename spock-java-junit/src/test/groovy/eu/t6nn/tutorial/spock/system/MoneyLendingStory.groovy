@@ -5,6 +5,7 @@ import eu.t6nn.tutorial.spock.system.wallet.NormalWallet
 import spock.lang.Issue
 import spock.lang.Narrative
 import spock.lang.Specification
+import spock.lang.Subject
 import spock.lang.Unroll
 
 /**
@@ -17,6 +18,7 @@ When I give Money to a Person
 I need to be able to retrieve the same amount or less of Money from the Person
 """)
 @Issue("https://github.com/t6nn/spock-examples/issues/1")
+@Subject([Person, NormalWallet])
 class MoneyLendingStory extends Specification implements SpecThatHandlesMoney {
 
     def person = new Person(new NormalWallet())

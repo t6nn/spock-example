@@ -2,10 +2,14 @@ package eu.t6nn.tutorial.spock.system.wallet
 
 import eu.t6nn.tutorial.spock.system.test.SpecThatHandlesMoney
 import spock.lang.Specification
+import spock.lang.Subject
+import spock.lang.Title
 import spock.lang.Unroll
 
+@Title("Specification of the \"normal\" wallet")
 class NormalWalletSpec extends Specification implements SpecThatHandlesMoney {
 
+	@Subject
 	NormalWallet wallet = new NormalWallet()
 
 	def "Empty wallet produces empty totals"() {

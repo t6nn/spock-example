@@ -4,13 +4,18 @@ import eu.t6nn.tutorial.spock.system.test.SpecThatHandlesMoney
 import eu.t6nn.tutorial.spock.system.wallet.Money
 import eu.t6nn.tutorial.spock.system.wallet.OutOfMoneyException
 import eu.t6nn.tutorial.spock.system.wallet.Wallet
+import spock.lang.Ignore
 import spock.lang.Specification
+import spock.lang.Subject
+
 /**
  * @author tonispi
  */
 class PersonSpec extends Specification implements SpecThatHandlesMoney {
 
     def mockWallet = Mock(Wallet)
+
+    @Subject
     def person = new Person(mockWallet)
 
     def "When giving money to a person, it is put into her wallet"() {
@@ -40,6 +45,7 @@ class PersonSpec extends Specification implements SpecThatHandlesMoney {
         1 * mockWallet.take(money(10, "USD"))
     }
 
+    @Ignore("This is way too technical")
     def "When asked for money, the same instance of money is returned"() {
         setup: "asking for 20 EUR"
         def askedSum = money(20, "EUR")
@@ -50,7 +56,7 @@ class PersonSpec extends Specification implements SpecThatHandlesMoney {
         then: "the money is requested from the wallet"
         1 * mockWallet.take(askedSum)
 
-        and: "the answered amount is exactly the same as was asked"
+        and: "the answered amount is exactly the same instance of Money as was asked"
         answer.is(askedSum)
     }
 
