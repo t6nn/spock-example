@@ -41,9 +41,9 @@ class NormalWalletSpec extends Specification implements SpecThatHandlesMoney {
 
 	@Unroll
 	def "#sumOut USD can be taken from wallet if #sumIn USD was already put there"() {
-		when: "putting $sumIn USD into the wallet"
+		when: "putting #sumIn USD into the wallet"
 		wallet.put(money(sumIn, "USD"))
-		and: "taking $sumOut USD from the wallet"
+		and: "taking #sumOut USD from the wallet"
 		wallet.take(money(sumOut, "USD"))
 
 		then: "no exceptions occur"
@@ -55,9 +55,9 @@ class NormalWalletSpec extends Specification implements SpecThatHandlesMoney {
 	}
 
 	def "A larger amount of money cannot be taken from wallet if a smaller amount has been put there"() {
-		when: "putting $sumIn USD into the wallet"
+		when: "putting #sumIn USD into the wallet"
 		wallet.put(money(sumIn, "USD"))
-		and: "taking $sumOut USD from the wallet"
+		and: "taking #sumOut USD from the wallet"
 		wallet.take(money(sumOut, "USD"))
 
 		then: "an exception is thrown"

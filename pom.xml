@@ -57,7 +57,7 @@
 					<configuration>
 						<useFile>false</useFile>
 						<includes>
-							<include>**/*Spec.java</include>
+							<include>**/*Spec.*</include>
 						</includes>
 					</configuration>
 				</plugin>
@@ -72,6 +72,21 @@
 							<version>2.19.1</version>
 						</dependency>
 					</dependencies>
+					<executions>
+						<execution>
+							<id>story-tests</id>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>integration-test</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<useFile>false</useFile>
+						<includes>
+							<include>**/*Story.java</include>
+						</includes>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

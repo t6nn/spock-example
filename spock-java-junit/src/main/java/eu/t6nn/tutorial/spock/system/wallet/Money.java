@@ -66,4 +66,9 @@ public class Money {
 		result = 31 * result + currency.hashCode();
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return amount + " " + currency;
+	}
 }
