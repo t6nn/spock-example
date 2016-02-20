@@ -28,7 +28,7 @@ class PersonSpec extends Specification implements SpecThatHandlesMoney {
         when: "the person is asked for 10 EUR"
         def answer = person.ask(money(10, "EUR"))
 
-        then:
+        then: "the person returns an empty amount"
         answer == Money.nothing(curr("EUR"))
     }
 
@@ -36,18 +36,21 @@ class PersonSpec extends Specification implements SpecThatHandlesMoney {
         when: "the person is asked for 10 USD"
         person.ask(money(10, "USD"))
 
-        then:
+        then: "person takes 10 USD from her wallet"
         1 * mockWallet.take(money(10, "USD"))
     }
 
     def "When asked for money, the same instance of money is returned"() {
-        setup:
+        setup: "asking for 20 EUR"
         def askedSum = money(20, "EUR")
 
-        when:
+        when: "the person is asked for that money"
         def answer = person.ask(askedSum)
 
-        then:
+        then: "the money is requested from the wallet"
+        1 * mockWallet.take(askedSum)
+
+        and: "the answered amount is exactly the same as was asked"
         answer.is(askedSum)
     }
 
