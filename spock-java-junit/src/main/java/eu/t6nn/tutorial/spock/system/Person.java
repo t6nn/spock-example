@@ -5,7 +5,7 @@ import eu.t6nn.tutorial.spock.system.wallet.OutOfMoneyException;
 import eu.t6nn.tutorial.spock.system.wallet.Wallet;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class Person {
 
@@ -31,10 +31,8 @@ public class Person {
 		}
 	}
 
-	Iterable<String> reportBalances() {
-		List<String> balances = new ArrayList<>();
-		wallet.checkBalances().forEach((c, m) -> balances.add(c + ":" + m.getAmount()));
-		return balances;
+	public Collection<Money> reportBalances() {
+		return new ArrayList<>(wallet.checkBalances().values());
 	}
 
 }
