@@ -93,5 +93,6 @@
 	</build>
 	<modules>
 		<module>spock-java-junit</module>
+		<module>spock-rest-example</module>
 	</modules>
 </project>
