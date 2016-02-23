@@ -2,12 +2,7 @@ package eu.t6nn.tutorial.spock.system
 
 import eu.t6nn.tutorial.spock.system.test.SpecThatHandlesMoney
 import eu.t6nn.tutorial.spock.system.wallet.NormalWallet
-import spock.lang.Issue
-import spock.lang.Narrative
-import spock.lang.Specification
-import spock.lang.Subject
-import spock.lang.Unroll
-
+import spock.lang.*
 /**
  * Created by t6nn on 2/20/16.
  */
@@ -21,10 +16,11 @@ I need to be able to retrieve the same amount or less of Money from the Person
 @Subject([Person, NormalWallet])
 class MoneyLendingStory extends Specification implements SpecThatHandlesMoney {
 
-    def person = new Person(new NormalWallet())
-
     @Unroll
-    def "When giving #give.amount #give.currency to a Person and asking for #ask.amount #ask.currency back, I want #expected.amount #expected.currency back"()  {
+    def "When giving #give.amount #give.currency to a Person and asking for #ask.amount #ask.currency back, I want #expected.amount #expected.currency back"() {
+
+        given: "a person that has a normal wallet"
+        def person = new Person(new NormalWallet())
 
         when: "given #give of money"
         person.give(give)
@@ -36,8 +32,8 @@ class MoneyLendingStory extends Specification implements SpecThatHandlesMoney {
         returned == expected
 
         where: "#give -> Person -> #expected"
-              give      |        ask        ||    expected
-        money(4, "USD") | money(4, "USD")   || money(4, "USD")
-        money(4, "EUR") | money(3.9, "EUR") || money(3.9, "EUR")
+        give  | ask     || expected
+        4.USD | 4.USD   || 4.USD
+        4.EUR | 3.9.EUR || 3.9.EUR
     }
 }
