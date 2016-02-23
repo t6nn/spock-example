@@ -1,14 +1,15 @@
 package eu.t6nn.tutorial.spock.rest.controller;
 
-import eu.t6nn.tutorial.spock.rest.model.PersonBalance;
+import eu.t6nn.tutorial.spock.rest.model.MoneyOnWire;
+import eu.t6nn.tutorial.spock.rest.model.TransactionResponse;
 import eu.t6nn.tutorial.spock.system.Person;
+import eu.t6nn.tutorial.spock.system.wallet.Money;
 import eu.t6nn.tutorial.spock.system.wallet.NormalWallet;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,23 +17,39 @@ import java.util.stream.Collectors;
  * @author tonispi
  */
 @Controller
-@RequestMapping( "/person" )
+@RequestMapping("/person")
 public class PersonController {
 
-	private final Person person = new Person( new NormalWallet() );
+    private final Person person = new Person(new NormalWallet());
 
-	@RequestMapping( method = RequestMethod.GET, path = "/balances", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+    @RequestMapping(method = RequestMethod.GET, path = "/balances", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-	public List<PersonBalance> getBalancesAsJson() {
-		return person.reportBalances().stream().map( PersonBalance::new ).collect( Collectors.toList() );
-	}
+    public List<MoneyOnWire> getBalancesAsJson() {
+        return person.reportBalances().stream().map(MoneyOnWire::new).collect(Collectors.toList());
+    }
 
-	@RequestMapping( method = RequestMethod.GET, path = "/balances", produces = MediaType.TEXT_HTML_VALUE )
+    @RequestMapping(method = RequestMethod.POST, path = "/give", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-	public String getBalancesAsText() {
-		StringBuilder builder = new StringBuilder("My Balances:\n");
-		person.reportBalances().stream().forEach( ( m ) -> builder.append( m ).append( "\n" ) );
-		return builder.toString();
-	}
+    public TransactionResponse giveMoney(@RequestBody MoneyOnWire request) {
+        try {
+            Money money = request.parseMoney();
+            person.give(money);
+            return new TransactionResponse("Thanks for the money!", request);
+        } catch (RuntimeException e) {
+            throw new MoneyInputException(e.getMessage());
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/ask", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public TransactionResponse askMoney(@RequestBody MoneyOnWire request) {
+        try {
+            Money money = request.parseMoney();
+            Money actualAmount = person.ask(money);
+            return new TransactionResponse("Will give you this much:", new MoneyOnWire(actualAmount));
+        } catch (RuntimeException e) {
+            throw new MoneyInputException(e.getMessage());
+        }
+    }
 
 }

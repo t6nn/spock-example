@@ -4,24 +4,59 @@
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.js"></script>
+    <script src="/js/ui-bootstrap-tpls-1.1.2.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-            crossorigin="anonymous"></script-->
+    <link rel="stylesheet" href="/css/ui-bootstrap-1.1.2-csp.css">
     <script src="js/wallet.js"></script>
     <title>Wallet App</title>
 </head>
 <body>
+<div class="container" style="width: 300px; margin-top: 150px">
     <div class="panel panel-default">
         <div class="panel-heading">Balances</div>
         <div class="panel-body">
-            <ul ng-controller="BalanceListController as balanceList">
-                <li ng-repeat="balance in balanceList.balances">
+            <ul ng-controller="BalanceListCtrl">
+                <li ng-repeat="balance in balances">
                     {{balance.amount}} {{balance.currency}}
                 </li>
             </ul>
         </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form name="txForm" ng-controller="TransactionCtrl">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="amount"/>
+                    <div class="input-group-btn">
+                        <div class="btn-group" uib-dropdown>
+                            <button id="give-btn" type="button" class="btn btn-primary dropdown-toggle"
+                                    uib-dropdown-toggle>Give <span class="caret"></span>
+                            </button>
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="give-btn">
+                                <li role="menuitem" ng-repeat="opt in availableCurrencies">
+                                    <a href="#" ng-click="give(opt)">{{opt}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" uib-dropdown>
+                            <button id="ask-btn" type="button" class="btn btn-primary dropdown-toggle"
+                                    uib-dropdown-toggle>Ask <span class="caret"></span>
+                            </button>
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="ask-btn">
+                                <li role="menuitem" ng-repeat="opt in availableCurrencies">
+                                    <a href="#" ng-click="ask(opt)">{{opt}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert" ng-show="alert" class="ng-hide">
+                    {{alert}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
