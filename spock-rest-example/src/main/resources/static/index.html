@@ -16,7 +16,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Balances</div>
         <div class="panel-body">
-            <ul ng-controller="BalanceListCtrl">
+            <ul id="balanceList" ng-controller="BalanceListCtrl">
                 <li ng-repeat="balance in balances">
                     {{balance.amount}} {{balance.currency}}
                 </li>
@@ -26,11 +26,11 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <form name="txForm" ng-controller="TransactionCtrl">
-                <div class="input-group">
+                <div id="txInput" class="input-group">
                     <input type="text" class="form-control" ng-model="amount"/>
                     <div class="input-group-btn">
                         <div class="btn-group" uib-dropdown>
-                            <button id="give-btn" type="button" class="btn btn-primary dropdown-toggle"
+                            <button id="giveBtn" type="button" class="btn btn-primary dropdown-toggle"
                                     uib-dropdown-toggle>Give <span class="caret"></span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="give-btn">
@@ -40,7 +40,7 @@
                             </ul>
                         </div>
                         <div class="btn-group" uib-dropdown>
-                            <button id="ask-btn" type="button" class="btn btn-primary dropdown-toggle"
+                            <button id="askBtn" type="button" class="btn btn-primary dropdown-toggle"
                                     uib-dropdown-toggle>Ask <span class="caret"></span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="ask-btn">
