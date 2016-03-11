@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 import org.springframework.test.annotation.DirtiesContext
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Stepwise
 /**
@@ -32,17 +31,17 @@ class PersonBalanceWebTest extends GebSpec {
         balances.balanceItems.size() == 0
     }
 
-    @Ignore("Not yet implemented")
     def "When adding 2 EUR to the balance, the balance is shown"() {
         when: "going to the main page"
         to PersonMainPage
 
-        and:
+        and: "giving the person 2 EUR"
         txForm.amount.enter("2")
         txForm.amount.give("EUR")
 
-        then:
-        true
+        then: "eventually balances are updated to contain the given amount"
+        waitFor { balances.balanceItems.size() == 1 }
+        balances.balanceItems[0].text() == "2 EUR"
     }
 
     Configuration createConf() {

@@ -9,6 +9,7 @@
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/ui-bootstrap-1.1.2-csp.css">
     <script src="js/wallet.js"></script>
+    <script src="/js/angular-test-support.js"></script>
     <title>Wallet App</title>
 </head>
 <body>
@@ -29,8 +30,8 @@
                 <div id="txInput" class="input-group">
                     <input type="text" class="form-control" ng-model="amount"/>
                     <div class="input-group-btn">
-                        <div class="btn-group" uib-dropdown>
-                            <button id="giveBtn" type="button" class="btn btn-primary dropdown-toggle"
+                        <div id="giveBtn" class="btn-group" uib-dropdown>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
                                     uib-dropdown-toggle>Give <span class="caret"></span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="give-btn">
@@ -39,8 +40,8 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="btn-group" uib-dropdown>
-                            <button id="askBtn" type="button" class="btn btn-primary dropdown-toggle"
+                        <div id="askBtn" class="btn-group" uib-dropdown>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
                                     uib-dropdown-toggle>Ask <span class="caret"></span>
                             </button>
                             <ul uib-dropdown-menu role="menu" aria-labelledby="ask-btn">
